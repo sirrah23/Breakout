@@ -17,6 +17,7 @@ function draw(){
 	player.show();
 	ball.show();
 	obstacle.show();
+	console.log(ball.collided(player));
 }
 
 function Player(){
@@ -75,11 +76,24 @@ Ball.prototype.move = function(){
 		this.y = 0;
 		this.vel.y *= -1; 
 	}
+	if (this.collided(player) || this.collided(obstacle)){
+		this.vel.x *= -1;
+		this.vel.y *= -1;
+	}
 }
 
 // TODO: Write this function once we have obstacles
-// Ball.prototype.collided = function(obtacle){
-// }
+Ball.prototype.collided = function(entity){
+	if(
+		(this.x + this.width) < entity.x
+		|| this.x > (entity.x + entity.width)
+		|| (this.y + this.height) < entity.y
+		|| this.y > (entity.y + entity.height)
+	){
+		return false;
+	}
+	return true;
+}
 
 function Obstacle(x, y){
 	this.x = x;
