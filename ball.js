@@ -1,10 +1,8 @@
 function Ball(){
 	this.width = 15;
-	this.height = 15;
-	this.x = 0 + this.width;
-	this.y = height - this.height;
-	this.vel = createVector(2,-1);
+	this.height = 15;	
 	this.step = 5;
+	this.respawn();
 }
 
 Ball.prototype.show = function(){
@@ -14,6 +12,7 @@ Ball.prototype.show = function(){
 	pop();
 }
 
+//TODO: This method does too much...
 Ball.prototype.move = function(){
 	this.wallCollide();
 
@@ -60,5 +59,25 @@ Ball.prototype.collided = function(entity){
 	}else{
 		return true;
 	}
-	
+}
+
+Ball.prototype.spawnLeft = function(){
+	this.x = 0 + this.width;
+	this.y = height - this.height; 
+	this.vel = createVector(2,-1);
+}
+
+Ball.prototype.spawnRight = function(){
+	this.x = width - this.width;
+	this.y = height - this.height; 
+	this.vel = createVector(-2, -1);	
+}
+
+Ball.prototype.respawn = function(){
+	var chance = random();
+	if (chance <= 0.5){
+		this.spawnLeft();
+	} else {
+		this.spawnRight();
+	}
 }

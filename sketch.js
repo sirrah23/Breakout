@@ -27,6 +27,9 @@ function draw(){
 	obstacles.forEach(function(obstacle){
 		obstacle.show()
 	});
+	if(ball.y > height){
+		ball.respawn();
+	}
 }
 
 function keyPressed() {
