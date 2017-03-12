@@ -12,24 +12,8 @@ Ball.prototype.show = function(){
 	pop();
 }
 
-//TODO: This method does too much...
 Ball.prototype.move = function(){
 	this.wallCollide();
-
-	if (this.collided(player)){
-		this.vel.y *= -1;
-		if(this.y + this.height > player.y){
-			this.vel.x *= -1;	// Collide with side of the player
-		}
-	}
-
-	for(var i = obstacles.length-1; i >=0; i--){
-		if(this.collided(obstacles[i])){
-			obstacles.splice(i,1);
-			this.vel.y *=-1;
-		}
-	}
-
 	this.x += this.vel.x * this.step;
 	this.y += this.vel.y * this.step;
 }

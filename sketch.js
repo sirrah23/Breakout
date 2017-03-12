@@ -21,7 +21,19 @@ function setup(){
 function draw(){
 	background(51);
 	player.move(direction);
-	ball.move();
+	if (ball.collided(player)){
+		ball.vel.y *= -1;
+		if(ball.y + ball.height > player.y){
+			ball.vel.x *= -1;	// Collide with side of the player
+		}
+	}
+	for(var i = obstacles.length-1; i >=0; i--){
+		if(ball.collided(obstacles[i])){
+			obstacles.splice(i,1);
+			ball.vel.y *=-1;
+		}
+	}
+	ball.move(player, obstacles);
 	player.show();
 	ball.show();
 	obstacles.forEach(function(obstacle){
