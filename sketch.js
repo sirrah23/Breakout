@@ -6,7 +6,6 @@ var player,
 	obstacleWidth,
 	obstacleHeight,
 	canvas,
-	livesIndicatorDiv,
 	livesIndicator;
 
 function setup(){
@@ -17,14 +16,12 @@ function setup(){
 	obstacleWidth = 100; obstacleHeight=25;
 	obstacles=[];
 	for(var i = 0; i < width; i+=obstacleWidth){
-		for(var j = 0; j < height/2; j+= obstacleHeight){
+		for(var j = 0; j < height/4; j+= obstacleHeight){
 			obstacles.push(new Obstacle(i, j, obstacleWidth, obstacleHeight));
 		}
 	}
 	// Display Player Lives
-	livesIndicatorDiv = createElement("div");
-	livesIndicatorChild = createElement("p", parseInt(lives));
-	livesIndicatorDiv.child(livesIndicatorChild);
+	livesIndicator = new LivesIndicator(lives);
 }
 
 function draw(){
@@ -45,6 +42,7 @@ function draw(){
 			ball.vel.y *=-1;
 		}
 	}
+	player.move(direction);
 	ball.move(player, obstacles);
 	player.show();
 	ball.show();
@@ -53,9 +51,7 @@ function draw(){
 	});
 	if(ball.y > height){
 		lives--;
-		livesIndicatorChild.remove();
-		livesIndicatorChild = createElement("p", parseInt(lives));
-		livesIndicatorDiv.child(livesIndicatorChild);
+		livesIndicator.decAndRefresh();
 		if(lives > 0){
 			ball.respawn();
 		} else {
@@ -63,7 +59,6 @@ function draw(){
 			noLoop();
 		}
 	}
-	player.move(direction);
 }
 
 function keyPressed() {
